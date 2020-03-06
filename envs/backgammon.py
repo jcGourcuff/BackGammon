@@ -66,7 +66,7 @@ class State():
       self.barred = previous_state.barred.copy()
       self.end_part = previous_state.end_part and True
     else:
-    board = self.board
+      board = self.board
     #
     # print('the previous board is :')
     # print(board)
