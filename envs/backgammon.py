@@ -111,7 +111,7 @@ class State():
             return -1
         return 0
 
-    def update_board(self, reverse=False):com
+    def update_board(self, reverse=False):
 
         if reverse:
             self.board = reverse_view(self.board)
