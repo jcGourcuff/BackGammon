@@ -12,21 +12,21 @@ class Backgammon(gym.Env):
     def play(self, action):
         for move in action:
             self.state.compute_state(move)
-        print('black player s turn')
+        #print('black player s turn')
         self.state.update_board(reverse=True)
-        print('the board is :')
-        print(self.state.board)
+        #print('the board is :')
+        #print(self.state.board)
         self.roll()
-        print('the dices are :')
-        print(self.dices)
+        #print('the dices are :')
+        #print(self.dices)
         self.black = BlackAgent(self.state)
         self.black_action = self.black.play([2, 2])
         for move in self.black_action:
-            print('the move os :')
-            print(move)
+            #print('the move os :')
+            #print(move)
             self.state.compute_state(move, black_agent=True)
-            print('the new board is :')
-            print(self.state.board)
+            #print('the new board is :')
+            #print(self.state.board)
         self.state.update_board(reverse=True)
 
     def roll(self):
@@ -111,7 +111,7 @@ class State():
             return -1
         return 0
 
-    def update_board(self, reverse=False):
+    def update_board(self, reverse=False):com
 
         if reverse:
             self.board = reverse_view(self.board)
@@ -166,19 +166,19 @@ class BlackAgent():
             d1 = dices[n]
             d2 = dices[1 - n]
             moves = self.possible_moves(self.state, d1)
-            print('first moves :')
-            print(moves)
+            #print('first moves :')
+            #print(moves)
             m1 = random.sample(moves, 1)[0]
-            print(m1)
+            #print(m1)
             new_state = State(self.state, m1, black_agent=True)
-            print('new state')
-            print(new_state.board)
+            #print('new state')
+            #print(new_state.board)
             moves_2 = self.possible_moves(new_state, d2)
-            print('moves_2')
-            print(moves_2)
+            #print('moves_2')
+            #print(moves_2)
             m2 = random.sample(moves_2, 1)[0]
-            print('m2')
-            print(m2)
+            #print('m2')
+            #print(m2)
             out = [m1, m2]
         else:
             d = dices[0]
