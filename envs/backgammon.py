@@ -113,7 +113,7 @@ class State():
 
     def update_board(self, reverse=False):
 
-        if reverse:
+       	if reverse:
             self.board = reverse_view(self.board)
 
         self.board[24] = self.off_board['white']
