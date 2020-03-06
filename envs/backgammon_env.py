@@ -54,7 +54,7 @@ class BackgammonEnv(gym.Env):
     def get_action_space(self, dice):
         return self.game.white.possible_moves(dice)
 
-
+"""
 env = BackgammonEnv()
 env.reset()
 # print(env.game.state.board)
@@ -86,3 +86,4 @@ env.render()
 moves = [(7, 5, 0), (12, 5, 0)]
 m = random.sample(moves, 1)
 m
+"""
