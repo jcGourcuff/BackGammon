@@ -30,7 +30,7 @@ class Backgammon(gym.Env):
     self.state.update_board(reverse=True)
 
   def roll(self):
-    self.dices = [np.random.randint(1, 6), np.random.randint(1, 6)]
+    self.dices = [np.random.randint(1, 7), np.random.randint(1, 7)]
 
   def get_observation(self):
     return self.state
