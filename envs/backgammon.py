@@ -33,7 +33,7 @@ class Backgammon(gym.Env):
         self.dices = [np.random.randint(1, 6), np.random.randint(1, 6)]
 
     def get_observation(self):
-        return self.state.board
+        return self.state
 
 
 class State():
