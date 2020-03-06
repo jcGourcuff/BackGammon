@@ -132,8 +132,8 @@ class WhiteAgent():
     def possible_moves(self, dice, state=None):
         if state == None:
             state = self.state
+		moves = []
         if state.barred['white'] == 0:
-            moves = []
             for i in range(dice, 24):
                 if state.board[i - dice] in [i for i in range(9)] and state.board[i] > 0:
                     moves.append((i, dice, 0))
