@@ -59,7 +59,7 @@ class State():
     self.board[24:] = [0 for i in range(5)]
 
   def compute_state(self, move, previous_state=None, black_agent=False):
-
+    board = None
     if previous_state != None:
       board = previous_state.board.copy()
       self.off_board = previous_state.off_board.copy()
