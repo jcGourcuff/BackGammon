@@ -197,19 +197,18 @@ class BlackAgent():
 
   def possible_moves(self, state, dice):
     moves = []
-    if state.barred['black'] == 0:
-      for i in range(dice, 24):
-        if state.board[i - dice] in [i for i in range(9)] and state.board[i] > 0:
-          moves.append((i, dice, 0))
-        if state.board[i - dice] == -1 and state.board[i] > 0:
-          moves.append((i, dice, -1))
-      if state.end_part:
-        for i in range(0, dice):
-          if state.board[i] > 0:
-            moves.append((i, dice, 1))
-      if moves == []:
-        moves.append((0, 0, 0))
-    else:
+    for i in range(dice, 24):
+      if state.board[i - dice] in [i for i in range(9)] and state.board[i] > 0:
+        moves.append((i, dice, 0))
+      if state.board[i - dice] == -1 and state.board[i] > 0:
+        moves.append((i, dice, -1))
+    if state.end_part:
+      for i in range(0, dice):
+        if state.board[i] > 0:
+          moves.append((i, dice, 1))
+    if moves == []:
+      moves.append((0, 0, 0))
+    if state.barred['black'] != 0:
       if state.board[24 - dice] >= 0:
         moves.append((24, dice, 0))
       if state.board[24 - dice] == -1:
