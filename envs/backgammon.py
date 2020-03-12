@@ -175,7 +175,7 @@ class BlackAgent():
       #print(moves)
       m1 = random.sample(moves, 1)[0]
       #print(m1)
-      new_state = State(previous_state = self.state, m1, black_agent=True)
+      new_state = State(previous_state = self.state, move = m1, black_agent=True)
       #print('new state')
       #print(new_state.board)
       moves_2 = self.possible_moves(new_state, d2)
@@ -189,13 +189,13 @@ class BlackAgent():
       d = dices[0]
       moves_1 = self.possible_moves(self.state, d)
       m1 = random.sample(moves_1, 1)[0]
-      new_state_1 = State(previous_state =self.state, m1, black_agent=True)
+      new_state_1 = State(previous_state =self.state, move = m1, black_agent=True)
       moves_2 = self.possible_moves(new_state_1, d)
       m2 = random.sample(moves_2, 1)[0]
-      new_state_2 = State(previous_state =new_state_1, m2, black_agent=True)
+      new_state_2 = State(previous_state =new_state_1, move = m2, black_agent=True)
       moves_3 = self.possible_moves(new_state_2, d)
       m3 = random.sample(moves_3, 1)[0]
-      new_state_3 = State(previous_state = new_state_2, m3, black_agent=True)
+      new_state_3 = State(previous_state = new_state_2, move = m3, black_agent=True)
       moves_4 = self.possible_moves(new_state_3, d)
       m4 = random.sample(moves_4, 1)[0]
       out = [m1, m2, m3, m4]
