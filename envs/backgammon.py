@@ -38,15 +38,22 @@ class Backgammon(gym.Env):
 
 class State():
 
-  def __init__(self, previous_state=None, move=None, black_agent=False):
+  def __init__(self, state_args = None, previous_state=None, move=None, black_agent=False):
 
-    if previous_state == None:
-      self.starting_positions()
+    if previous_state != None:
+			self.compute_state(move, previous_state, black_agent)
+			self.compute_state(move, previous_state, black_agent)
+        
+		elif state_args != None :
+			self.off_board, self.barred, self.end_part, self.board = state_args
+		else :
+			self.starting_positions()
       self.off_board = {'white': 0, 'black': 0}
       self.barred = {'white': 0, 'black': 0}
       self.end_part = False
-    else:
-      self.compute_state(move, previous_state, black_agent)
+
+		def get_args(self):
+			return (self.off_board, self.barred, self.end_part, self.board)
 
   def starting_positions(self):
     self.board = [0 for i in range(28)]
