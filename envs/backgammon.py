@@ -42,7 +42,6 @@ class State():
 
     if previous_state != None:
 			self.compute_state(move, previous_state, black_agent)
-			self.compute_state(move, previous_state, black_agent)
         
 		elif state_args != None :
 			self.off_board, self.barred, self.end_part, self.board = state_args
@@ -52,8 +51,8 @@ class State():
       self.barred = {'white': 0, 'black': 0}
       self.end_part = False
 
-		def get_args(self):
-			return (self.off_board, self.barred, self.end_part, self.board)
+	def get_args(self):
+		return (self.off_board, self.barred, self.end_part, self.board)
 
   def starting_positions(self):
     self.board = [0 for i in range(28)]
