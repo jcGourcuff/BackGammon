@@ -41,18 +41,18 @@ class State():
   def __init__(self, state_args = None, previous_state=None, move=None, black_agent=False):
 
     if previous_state != None:
-			self.compute_state(move, previous_state, black_agent)
-        
-		elif state_args != None :
-			self.off_board, self.barred, self.end_part, self.board = state_args
-		else :
-			self.starting_positions()
-      self.off_board = {'white': 0, 'black': 0}
-      self.barred = {'white': 0, 'black': 0}
-      self.end_part = False
+        self.compute_state(move, previous_state, black_agent)
 
-	def get_args(self):
-		return (self.off_board, self.barred, self.end_part, self.board)
+    elif state_args != None :
+        self.off_board, self.barred, self.end_part, self.board = state_args
+    else :
+        self.starting_positions()
+        self.off_board = {'white': 0, 'black': 0}
+        self.barred = {'white': 0, 'black': 0}
+        self.end_part = False
+
+  def get_args(self):
+    return (self.off_board, self.barred, self.end_part, self.board)
 
   def starting_positions(self):
     self.board = [0 for i in range(28)]
@@ -98,7 +98,7 @@ class State():
     if move[2] == 1:
       board[move[0]] -= 1
       self.off_board[agent] += 1
-      
+
     self.board = board
     if self.end_part == False and self.barred[agent] == 0:
       self.end_part = True
