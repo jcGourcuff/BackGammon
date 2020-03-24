@@ -46,7 +46,7 @@ class State():
             self.barred = {'white': 0, 'black': 0}
             self.end_part = False
         elif move == None:
-            self.board = state.board.deepcopy()
+            self.board = state.board.copy()
             self.update_board()
         else:
             self.compute_state(move, state, black_agent)
