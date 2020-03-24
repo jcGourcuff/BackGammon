@@ -50,7 +50,6 @@ class State():
             self.barred = state.barred
             self.end_part = state.end_part
             self.board = state.board.copy()
-            self.update_board()
         else:
             self.compute_state(move, state, black_agent)
 
