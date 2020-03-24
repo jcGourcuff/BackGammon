@@ -144,7 +144,7 @@ class WhiteAgent():
         if state == None:
             state = self.state
         if state.barred['white'] == 0:
-            for i in range(dice, 24):
+            for i in range(24):
                 if state.board[i] > 0 :
                     if i-dice < 0 or state.board[i - dice] in [i for i in range(-1,9)] :
                         moves.append((i, dice))
@@ -210,7 +210,7 @@ class BlackAgent():
             state = self.state
 
         if state.barred['black'] == 0:
-            for i in range(dice, 24):
+            for i in range(24):
                 if state.board[i] > 0 :
                     if i-dice < 0 or state.board[i - dice] in [i for i in range(-1,9)] :
                         moves.append((i, dice))
