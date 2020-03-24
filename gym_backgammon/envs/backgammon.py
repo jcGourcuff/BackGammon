@@ -46,6 +46,9 @@ class State():
             self.barred = {'white': 0, 'black': 0}
             self.end_part = False
         elif move == None:
+            self.off_board = state.off_board
+            self.barred = state.barred
+            self.end_part = state.end_part
             self.board = state.board.copy()
             self.update_board()
         else:
