@@ -38,18 +38,24 @@ class Backgammon(gym.Env):
 
 class State():
 
-    def __init__(self, state=None, move=None, black_agent=False):
+    def __init__(self, state=None, move=None, black_agent=False, args = None):
 
         if state == None:
             self.starting_positions()
             self.off_board = {'white': 0, 'black': 0}
             self.barred = {'white': 0, 'black': 0}
-            self.end_part = False
-        elif move == None:
+
+        elif move == None and state != None:
             self.off_board = state.off_board
-            self.barred = state.barred
-            self.end_part = state.end_part
+            self.barred = state.barred.copy()
+
             self.board = state.board.copy()
+        elif args != None :
+            #args = board
+            self.board = args[0] + [0]
+            self.off_board = {'white': self.board[24], 'black': self.board[25]}
+            self.barred = {'white': self.board[26], 'black': self.board[27]}
+
         else:
             self.compute_state(move, state, black_agent)
 
@@ -64,7 +70,7 @@ class State():
         self.board[11] = self.board[18] = -5
         self.board[16] = -3
         self.board[23] = 2
-        self.board[24:] = [0 for i in range(5)]
+        self.board[24:] = [0 for i in range(4)]
 
     def compute_state(self, move, previous_state=None, black_agent=False):
 
@@ -73,7 +79,6 @@ class State():
             board = previous_state.board.copy()
             self.off_board = previous_state.off_board.copy()
             self.barred = previous_state.barred.copy()
-            self.end_part = previous_state.end_part and True
         else :
             board = self.board
 
@@ -91,22 +96,20 @@ class State():
         if self.barred[agent] > 0 and move[1] != 0:
             self.barred[agent] -= 1
 
-        if move[2] == 0:
+        if move[0]-move[1] < 0 :
             board[move[0]] -= 1
-            board[move[0] - move[1]] += 1
-        if move[2] == -1:
+            self.off_board[agent] += 1
+
+        elif board[move[0]-move[1]] == -1 :
             board[move[0]] -= 1
             board[move[0] - move[1]] = 1
             self.barred[opponent] += 1
-        if move[2] == 1:
+        else :
             board[move[0]] -= 1
-            self.off_board[agent] += 1
+            board[move[0] - move[1]] += 1
+
+
         self.board = board
-        if self.end_part == False and self.barred[agent] == 0:
-            self.end_part = True
-            for i in range(6, 24):
-                if self.board[i] > 0:
-                    self.end_part = False
 
         # print('the new board is: ')
         # print(self.board)
@@ -128,7 +131,6 @@ class State():
         self.board[25] = self.off_board['black']
         self.board[26] = self.barred['white']
         self.board[27] = self.barred['black']
-        self.board[28] = self.end_part
 
 
 class WhiteAgent():
@@ -143,21 +145,16 @@ class WhiteAgent():
             state = self.state
         if state.barred['white'] == 0:
             for i in range(dice, 24):
-                if state.board[i - dice] in [i for i in range(9)] and state.board[i] > 0:
-                    moves.append((i, dice, 0))
-                if state.board[i - dice] == -1 and state.board[i] > 0:
-                    moves.append((i, dice, -1))
-            if state.end_part:
-                for i in range(0, dice):
-                    if state.board[i] > 0:
-                        moves.append((i, dice, 1))
-            if moves == []:
-                moves.append((0, 0, 0))
+                if state.board[i] > 0 :
+                    if i-dice < 0 or state.board[i - dice] in [i for i in range(-1,9)] :
+                        moves.append((i, dice))
+
+            if len(moves) == 0:
+                moves.append((0, 0))
         else:
-            if state.board[24 - dice] >= 0:
-                moves.append((24, dice, 0))
-            if state.board[24 - dice] == -1:
-                moves.append((24, dice, -1))
+            if state.board[24 - dice] >= -1:
+                moves.append((24, dice))
+
         return moves
 
 
@@ -206,23 +203,22 @@ class BlackAgent():
 
     def possible_moves(self, state, dice):
         moves = []
+
+        if state == None:
+            state = self.state
+
         if state.barred['black'] == 0:
             for i in range(dice, 24):
-                if state.board[i - dice] in [i for i in range(9)] and state.board[i] > 0:
-                    moves.append((i, dice, 0))
-                if state.board[i - dice] == -1 and state.board[i] > 0:
-                    moves.append((i, dice, -1))
-            if state.end_part:
-                for i in range(0, dice):
-                    if state.board[i] > 0:
-                        moves.append((i, dice, 1))
-            if moves == []:
-                moves.append((0, 0, 0))
+                if state.board[i] > 0 :
+                    if i-dice < 0 or state.board[i - dice] in [i for i in range(-1,9)] :
+                        moves.append((i, dice))
+
+            if len(moves) == 0:
+                moves.append((0, 0))
         else:
-            if state.board[24 - dice] >= 0:
-                moves.append((24, dice, 0))
-            if state.board[24 - dice] == -1:
-                moves.append((24, dice, -1))
+            if state.board[24 - dice] >= -1:
+                moves.append((24, dice))
+
         return moves
 
 
