@@ -1,9 +1,9 @@
 import gym
 from gym import error, spaces, utils
 from gym.utils import seeding
-from envs.display import backgammonBoard
+from display import backgammonBoard
 import importlib
-from envs.backgammon import Backgammon
+from backgammon import Backgammon
 import numpy as np
 import random
 
