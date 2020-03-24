@@ -68,12 +68,14 @@ class State():
 
     def compute_state(self, move, previous_state=None, black_agent=False):
 
-        board = self.board
+        board = None
         if previous_state != None:
-            board = previous_state.board.deepcopy()
+            board = previous_state.board.copy()
             self.off_board = previous_state.off_board.copy()
             self.barred = previous_state.barred.copy()
             self.end_part = previous_state.end_part and True
+        else :
+            board = self.board
 
         #
         # print('the previous board is :')
