@@ -55,7 +55,7 @@ class BackgammonEnv(gym.Env):
         return self.game.white.possible_moves(dice)
 
 
-env = BackgammonEnv()
+"""env = BackgammonEnv()
 env.reset()
 # print(env.game.state.board)
 env.game.roll()
@@ -85,4 +85,4 @@ env.step([(23, 3, -1), (5, 2, 0)])
 env.render()
 moves = [(7, 5, 0), (12, 5, 0)]
 m = random.sample(moves, 1)
-m
+m"""
