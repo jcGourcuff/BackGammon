@@ -52,7 +52,7 @@ class State():
             self.board = state.board.copy()
         elif args != None :
             #args = board
-            self.board = args[0] + [0]
+            self.board = args
             self.off_board = {'white': self.board[24], 'black': self.board[25]}
             self.barred = {'white': self.board[26], 'black': self.board[27]}
 
