@@ -5,7 +5,7 @@ import random
 
 class Backgammon(gym.Env):
 
-    def __init__(self):
+    def __init__(self, black_ia):
         self.state = State()
         self.white = WhiteAgent(self.state)
 
@@ -19,7 +19,7 @@ class Backgammon(gym.Env):
         self.roll()
         #print('the dices are :')
         #print(self.dices)
-        self.black = BlackAgent(self.state)
+        self.black = BlackAgent(self.state, ia = black_ia)
         self.black_action = self.black.play(self.dices)
         for move in self.black_action:
             #print('the move os :')
@@ -162,9 +162,10 @@ class WhiteAgent():
 
 class BlackAgent():
 
-    def __init__(self, state):
+    def __init__(self, state, ia):
 
         self.state = state
+        self.ia= ia
 
     def play(self, dices):
         out = []
@@ -175,7 +176,7 @@ class BlackAgent():
             moves = self.possible_moves(self.state, d1)
             #print('first moves :')
             #print(moves)
-            m1 = random.sample(moves, 1)[0]
+            m1 = self.choose_move(moves)
             #print(m1)
             new_state = State(self.state, m1, black_agent=True)
             #print('new state')
@@ -183,25 +184,76 @@ class BlackAgent():
             moves_2 = self.possible_moves(new_state, d2)
             #print('moves_2')
             #print(moves_2)
-            m2 = random.sample(moves_2, 1)[0]
+            m2 = self.choose_move(moves_2)
             #print('m2')
             #print(m2)
             out = [m1, m2]
         else:
             d = dices[0]
             moves_1 = self.possible_moves(self.state, d)
-            m1 = random.sample(moves_1, 1)[0]
+            m1 = self.choose_move(moves_1)
             new_state_1 = State(self.state, m1, black_agent=True)
             moves_2 = self.possible_moves(new_state_1, d)
-            m2 = random.sample(moves_2, 1)[0]
+            m2 = self.choose_move(moves_2)
             new_state_2 = State(new_state_1, m2, black_agent=True)
             moves_3 = self.possible_moves(new_state_2, d)
-            m3 = random.sample(moves_3, 1)[0]
+            m3 = self.choose_move(moves_3)
             new_state_3 = State(new_state_2, m3, black_agent=True)
             moves_4 = self.possible_moves(new_state_3, d)
-            m4 = random.sample(moves_4, 1)[0]
+            m4 = self.choose_move(moves_4)
             out = [m1, m2, m3, m4]
         return out
+
+    def choose_move(self, moves):
+        if self.ia=='random':
+            return random.sample(moves, 1)[0]
+        else :
+            possible_next_states = [State(state = init_state, move = m) for m in moves]
+            _, _, idx = BlackAgent.max_value(possible_next_states)
+            move = moves[idx]
+            return move
+
+    @staticmethod
+    def get_score(board):
+      """
+        Gives scores from a board of size 28 (without dices rolls)
+        Normalized.
+      """
+      if board[24] == 15 :
+        return 1
+      else :
+        max_score = 15*24
+        result = 0
+        result+= (board[24]-board[25])*24
+        for k,pins in enumerate(board[:24]) :
+          pos = 23 - k
+          if pins > 0 :
+            if pins > 1 :
+              result += pins*((pos//6+1)*6)
+            else :
+              result+= (pos//6)*6 + 1
+        return result/max_score
+        
+    @staticmethod
+    def max_value(resulting_states):
+      """
+        Takes a list of stae and returns
+        s : the state having the highest score
+        m : the corresponding state score
+        i : the corresponfing index in the list
+      """
+      s = resulting_states[0]
+      m = BlackAgent.get_score(s.board)
+      i=0
+      for k,res in enumerate(resulting_states[1:]) :
+        sc = BlackAgent.get_score(res.board)
+        if sc > m :
+          m = sc
+          s = res
+          i=k
+      return m,s,i
+
+
 
     def possible_moves(self, state, dice):
         moves = []

@@ -11,8 +11,8 @@ import random
 class BackgammonEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
-    def __init__(self):
-        self.game = Backgammon()
+    def __init__(self, black_ia = 'random'):
+        self.game = Backgammon(black_ia = black_ia)
 
         low = [-9 for i in range(24)]  # board information - lowest
         high = [9 for i in range(24)]  # board information - highest
