@@ -177,7 +177,7 @@ class BlackAgent():
             moves = self.possible_moves(self.state, d1)
             #print('first moves :')
             #print(moves)
-            m1 = self.choose_move(moves)
+            m1 = self.choose_move(moves, init_state = self.state)
             #print(m1)
             new_state = State(self.state, m1, black_agent=True)
             #print('new state')
@@ -185,27 +185,27 @@ class BlackAgent():
             moves_2 = self.possible_moves(new_state, d2)
             #print('moves_2')
             #print(moves_2)
-            m2 = self.choose_move(moves_2)
+            m2 = self.choose_move(moves_2, init_state= new_state)
             #print('m2')
             #print(m2)
             out = [m1, m2]
         else:
             d = dices[0]
             moves_1 = self.possible_moves(self.state, d)
-            m1 = self.choose_move(moves_1)
+            m1 = self.choose_move(moves_1, init_state = self.state)
             new_state_1 = State(self.state, m1, black_agent=True)
             moves_2 = self.possible_moves(new_state_1, d)
-            m2 = self.choose_move(moves_2)
+            m2 = self.choose_move(moves_2, init_state = new_state_1 )
             new_state_2 = State(new_state_1, m2, black_agent=True)
             moves_3 = self.possible_moves(new_state_2, d)
-            m3 = self.choose_move(moves_3)
+            m3 = self.choose_move(moves_3, init_state = new_state_2 )
             new_state_3 = State(new_state_2, m3, black_agent=True)
             moves_4 = self.possible_moves(new_state_3, d)
-            m4 = self.choose_move(moves_4)
+            m4 = self.choose_move(moves_4, , init_state = new_state_3)
             out = [m1, m2, m3, m4]
         return out
 
-    def choose_move(self, moves):
+    def choose_move(self, moves, init_state):
         if self.ia=='random':
             return random.sample(moves, 1)[0]
         else :
