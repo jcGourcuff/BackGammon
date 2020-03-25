@@ -201,7 +201,7 @@ class BlackAgent():
             m3 = self.choose_move(moves_3, init_state = new_state_2 )
             new_state_3 = State(new_state_2, m3, black_agent=True)
             moves_4 = self.possible_moves(new_state_3, d)
-            m4 = self.choose_move(moves_4, , init_state = new_state_3)
+            m4 = self.choose_move(moves_4, init_state = new_state_3)
             out = [m1, m2, m3, m4]
         return out
 
