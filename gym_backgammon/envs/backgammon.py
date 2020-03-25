@@ -8,6 +8,7 @@ class Backgammon(gym.Env):
     def __init__(self, black_ia):
         self.state = State()
         self.white = WhiteAgent(self.state)
+        self.black_ia = black_ia
 
     def play(self, action):
         for move in action:
@@ -19,7 +20,7 @@ class Backgammon(gym.Env):
         self.roll()
         #print('the dices are :')
         #print(self.dices)
-        self.black = BlackAgent(self.state, ia = black_ia)
+        self.black = BlackAgent(self.state, ia = self.black_ia)
         self.black_action = self.black.play(self.dices)
         for move in self.black_action:
             #print('the move os :')
@@ -233,7 +234,7 @@ class BlackAgent():
             else :
               result+= (pos//6)*6 + 1
         return result/max_score
-        
+
     @staticmethod
     def max_value(resulting_states):
       """
